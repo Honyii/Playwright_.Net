@@ -8,7 +8,7 @@ namespace PlaywrightTests;
 public class OrangeHrm : PageTest
 {
     [Test]
-    public async Task HasTitle()
+    public async Task LoginTest()
     {
         await Page.GotoAsync("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
         await Expect(Page).ToHaveTitleAsync(new Regex("OrangeHRM"));
