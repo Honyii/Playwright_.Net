@@ -20,5 +20,5 @@ dotnet test
 ```
 ### Run in ui mode
 ```
-
+HEADED=1 dotnet test
 ```
