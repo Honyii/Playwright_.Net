@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
 
-namespace PlaywrightTests.Pages
+namespace My.Testing
 {
     public class LoginPage
     {
