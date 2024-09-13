@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
-using Microsoft.Extensions.Configurations;
+using Microsoft.Extensions.Configuration;
 using System.IO;
 
 namespace My.Testing
@@ -9,14 +9,20 @@ namespace My.Testing
     public class LoginPage
     {
         private readonly IPage _page;
+        private readonly IConfiguration _config;
         public LoginPage(IPage page)
         {
             _page = page;
+            _config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
         }
 
         public async Task NavigateToLoginPage()
         {
-            await _page.GotoAsync("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+            var baseUrl = _config["AppSettings:BaseUrl"];
+            await _page.GotoAsync(baseUrl);
         }
 
         public async Task PerformLogin(string username, string password)
