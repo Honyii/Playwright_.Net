@@ -8,16 +8,13 @@ namespace My.Testing
 {
     public class LoginPage
     {
-        private readonly IPage _page;
-        private readonly IConfiguration _config;
-        public LoginPage(IPage page)
-        {
-            _page = page;
-            _config = new ConfigurationBuilder()
+        private IPage _page;
+        public LoginPage(IPage page) => _page = page;
+        private IConfiguration _config => new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
-        }
+
 
         public async Task NavigateToLoginPage()
         {
