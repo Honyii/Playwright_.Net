@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
@@ -12,24 +13,38 @@ namespace PlaywrightTests
     [TestFixture]
     public class OrangeHrm : PageTest
     {
-        private class LoginData {
-            public string Username {get; set;}
-            public string Password {get; set;}
+        private class LoginData
+        {
+            public string Username { get; set; }
+            public string Password { get; set; }
         }
-        [Test]
-        public async Task LoginTest()
+        [SetUp]
+        public async Task LoginSetup()
         {
             var loginData = JsonConvert.DeserializeObject<LoginData>(File.ReadAllText("data.json"));
             var loginPage = new LoginPage(Page);
-            var dashboard = new Dashboard(Page);
             await loginPage.NavigateToLoginPage();
             await loginPage.VerifyPageTitle();
             await loginPage.PerformLogin(loginData.Username, loginData.Password);
             await loginPage.VerifyDashboardUrl();
-            await dashboard.PunchOutBtn();
-            
-          
+
         }
-        
+
+        [Test]
+        public async Task DashboardPunchInTest()
+        {
+            var dashboard = new Dashboard(Page);
+            await Expect(dashboard.ConfirmAttendanceCard).ToBeVisibleAsync(); 
+            await Expect(dashboard.ConfirmPunchInText).ToHaveTextAsync(new Regex("Punched Out"));          
+            await Expect(dashboard.ConfirmAttendanceChart).ToNBeVisibleAsync();
+            await dashboard.PunchInBtn();
+            await Expect(Page).ToHaveURLAsync(new Regex(".*attendance"));
+            await Page.PauseAsync();
+        }
+        [Test]
+        public async Task DashboardMyActionsTest() {
+
+        }
     }
 }
+  
