@@ -36,7 +36,7 @@ namespace PlaywrightTests
             var dashboard = new Dashboard(Page);
             await Expect(dashboard.ConfirmAttendanceCard).ToBeVisibleAsync(); 
             await Expect(dashboard.ConfirmPunchInText).ToHaveTextAsync(new Regex("Punched Out"));          
-            await Expect(dashboard.ConfirmAttendanceChart).ToNBeVisibleAsync();
+            await Expect(dashboard.ConfirmAttendanceChart).ToBeVisibleAsync();
             await dashboard.PunchInBtn();
             await Expect(Page).ToHaveURLAsync(new Regex(".*attendance"));
             await Page.PauseAsync();
